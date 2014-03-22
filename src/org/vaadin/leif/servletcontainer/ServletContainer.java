@@ -88,7 +88,13 @@ public class ServletContainer {
          * and start waiting for the next connection.
          */
 
-        throw new UnsupportedOperationException("Implement in step 1");
+        ServerSocket socket = new ServerSocket(port);
+
+        while (true) {
+            Socket connection = socket.accept();
+            handleConnection(connection);
+            connection.close();
+        }
     }
 
     private void handleConnection(Socket connection) throws IOException,
