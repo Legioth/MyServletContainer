@@ -113,8 +113,13 @@ public class MyServletContext implements ServletContext {
          * segment at a time from the requested path.
          */
         // 2. Longest path-prefix
-        if (true) {
-            throw new UnsupportedOperationException("Implement in step 7");
+        PathIterator pathIterator = new PathIterator(path);
+        while (pathIterator.hasNext()) {
+            String shortenedPath = pathIterator.next();
+            HttpServlet servlet = wildcardEndMappings.get(shortenedPath);
+            if (servlet != null) {
+                return new MappingResult(servlet, shortenedPath);
+            }
         }
 
         // 3. By extension

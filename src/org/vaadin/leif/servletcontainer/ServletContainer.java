@@ -177,7 +177,20 @@ public class ServletContainer {
                  * This step continues in MyServletContext.findServlet(String)
                  */
 
-                throw new UnsupportedOperationException("Implement in step 7");
+                String contextPath = context.getContextPath();
+
+                String pathInContext = path.substring(contextPath.length());
+
+                MappingResult mappingResult = context
+                        .findSerlvet(pathInContext);
+                if (mappingResult == null) {
+                    throw new RuntimeException("Couldn't find servlet for "
+                            + pathInContext + " in context " + contextPath);
+                }
+
+                servletPath = mappingResult.getServletPath();
+                servlet = mappingResult.getServlet();
+                pathInfo = pathInContext.substring(servletPath.length());
 
             } else {
                 // Hardcoded simple values
