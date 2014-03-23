@@ -46,7 +46,16 @@ public class MyExplodedWarServletContext extends MyServletContext {
          * to the provided list. Supported resources include Jar files and
          * directory structures containing class files.
          */
-        throw new UnsupportedOperationException("Implement in step 8");
+
+        classloaderFiles.add(new File(webInf, "classes/"));
+
+        File libDir = new File(webInf, "lib");
+        File[] libFiles = libDir.listFiles();
+        for (File file : libFiles) {
+            if (file.getName().endsWith(".jar")) {
+                classloaderFiles.add(file);
+            }
+        }
     }
 
     private void findWebServletInClasses(File dir, String packageName)
