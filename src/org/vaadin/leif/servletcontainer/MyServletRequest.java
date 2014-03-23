@@ -196,7 +196,20 @@ public class MyServletRequest implements HttpServletRequest {
          * Test urls: http://localhost:8182/, http://localhost:8182/?name and
          * http://localhost:8182/?name=Foo
          */
-        throw new UnsupportedOperationException("Implement in step 5");
+
+        Matcher matcher = Pattern.compile("([^&=]+)=?([^&]*)").matcher(
+                parameterString);
+        while (matcher.find()) {
+            String key = matcher.group(1);
+            String value = matcher.group(2);
+
+            List<String> list = parameters.get(key);
+            if (list == null) {
+                list = new ArrayList<String>();
+                parameters.put(key, list);
+            }
+            list.add(value);
+        }
     }
 
     @Override
