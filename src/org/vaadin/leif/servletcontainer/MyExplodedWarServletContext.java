@@ -89,7 +89,13 @@ public class MyExplodedWarServletContext extends MyServletContext {
          * investigate it using reflection.
          */
 
-        throw new UnsupportedOperationException("Implement in step 9");
+        Class<?> clazz = Class.forName(className, false, getClassLoader());
+        if (HttpServlet.class.isAssignableFrom(clazz)
+                && clazz.getAnnotation(WebServlet.class) != null) {
+            return (HttpServlet) clazz.newInstance();
+        } else {
+            return null;
+        }
     }
 
     @Override
