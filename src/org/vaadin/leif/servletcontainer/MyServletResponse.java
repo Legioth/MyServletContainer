@@ -346,7 +346,15 @@ public class MyServletResponse implements HttpServletResponse {
              * header value is written to a separate line in the format
              * "<name>: <value>".
              */
-            throw new UnsupportedOperationException("Implement in step 10");
+
+            for (Entry<String, List<String>> entry : headers.entrySet()) {
+                String header = entry.getKey();
+                List<String> values = entry.getValue();
+
+                for (String value : values) {
+                    socketStream.println(header + ": " + value);
+                }
+            }
         }
     }
 

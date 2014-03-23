@@ -103,7 +103,24 @@ public class MyServletRequest implements HttpServletRequest {
          * This step continues in MyServletResponse.writeConfiguredHeaders()
          */
 
-        throw new UnsupportedOperationException("Implement in step 10");
+        while (true) {
+            String line = stream.readStringLine();
+            if (line.isEmpty()) {
+                break;
+            }
+            String[] parts = line.split(":\\s+", 2);
+            if (parts.length != 2) {
+                throw new RuntimeException("Malformed? header line: " + line);
+            }
+
+            String name = parts[0];
+            Vector<String> vector = headers.get(name);
+            if (vector == null) {
+                vector = new Vector<String>();
+                headers.put(name, vector);
+            }
+            vector.add(parts[1]);
+        }
     }
 
     private static void readCookies(Hashtable<String, Vector<String>> headers,
