@@ -21,7 +21,7 @@ import org.vaadin.leif.servletcontainer.servlet.MySecondServlet;
 import org.vaadin.leif.servletcontainer.servlet.MyServlet;
 
 public class ServletContainer {
-    private static final String explodedWarPath = null;
+    private static final String explodedWarPath = "/Users/lastrand/Desktop/VaadinSampleProject/";
 
     private static final boolean useComplexStaticContexts = true;
 
