@@ -23,7 +23,7 @@ import org.vaadin.leif.servletcontainer.servlet.MyServlet;
 public class ServletContainer {
     private static final String explodedWarPath = null;
 
-    private static final boolean useComplexStaticContexts = false;
+    private static final boolean useComplexStaticContexts = true;
 
     private final Map<String, MyServletContext> contexts = new HashMap<String, MyServletContext>();
     private final int port;
