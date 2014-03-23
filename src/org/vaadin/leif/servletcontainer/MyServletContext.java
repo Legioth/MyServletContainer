@@ -77,7 +77,25 @@ public class MyServletContext implements ServletContext {
          * set its init parameters based on the data in the @WebServlet
          * annotation. Finally initialize the servlet using the config object.
          */
-        throw new UnsupportedOperationException("Implement in step 6");
+
+        for (String mapping : mappings) {
+            if (mapping.startsWith("/") && mapping.endsWith("/*")) {
+                mapping = mapping.substring(0, mapping.length() - 2);
+                wildcardEndMappings.put(mapping, servlet);
+            } else {
+                exactMappings.put(mapping, servlet);
+            }
+        }
+
+        MyServletConfig config = new MyServletConfig(servlet.getClass(), this);
+
+        WebServlet webServlet = servlet.getClass().getAnnotation(
+                WebServlet.class);
+        for (WebInitParam initParam : webServlet.initParams()) {
+            config.setInitParameter(initParam.name(), initParam.value());
+        }
+
+        servlet.init(config);
     }
 
     MappingResult findSerlvet(String path) {
