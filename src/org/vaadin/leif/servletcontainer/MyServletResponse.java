@@ -319,7 +319,18 @@ public class MyServletResponse implements HttpServletResponse {
          * 
          * This step continues in writeResponseBody()
          */
-        throw new UnsupportedOperationException("Implement in step 4");
+        socketStream.println(request.getProtocol() + " 200 OK");
+
+        if (!containsHeader("Content-Type")) {
+            socketStream.println("Content-Type: " + contentType);
+        }
+
+        if (!containsHeader("Content-Length")) {
+            socketStream.println("Content-Length: " + bufferLength);
+        }
+
+        // We don't support any keep alive stuff
+        socketStream.println("Connection: close");
     }
 
     private static void writeConfiguredHeaders(
@@ -349,7 +360,13 @@ public class MyServletResponse implements HttpServletResponse {
          * - Empty line to denote the end of the headers 
          * - The actual response body
          */
-        throw new UnsupportedOperationException("Implement in step 4");
+
+        socketStream.println();
+
+        socketStream.write(buffer, 0, bufferLength);
+
+        socketStream.flush();
+        socketStream.close();
     }
 
     private static final void specialMethod() {
