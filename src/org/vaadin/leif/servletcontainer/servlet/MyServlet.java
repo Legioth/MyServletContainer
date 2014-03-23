@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet({ "/*", "/baz/bar/*" })
 public class MyServlet extends HttpServlet {
 
-    private boolean useHeaders = false;
+    private boolean useHeaders = true;
 
     private boolean useCookies = false;
 
