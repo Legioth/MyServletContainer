@@ -200,7 +200,15 @@ public class MyServletRequest implements HttpServletRequest {
                  * string parameters.
                  */
 
-                throw new UnsupportedOperationException("Implement in step 14");
+                if ("application/x-www-form-urlencoded"
+                        .equals(getContentType())) {
+                    try {
+                        String postParameters = stream.readStringLine();
+                        parseParameters(parameters, postParameters);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
 
             for (Entry<String, List<String>> entry : parameters.entrySet()) {
