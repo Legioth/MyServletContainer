@@ -500,7 +500,13 @@ public class MyServletRequest implements HttpServletRequest {
          * 
          * This step continues in MyServletResponse.checkForSession()
          */
-        throw new UnsupportedOperationException("Implement in step 12");
+
+        for (Cookie cookie : cookies) {
+            if ("JSESSIONID".equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 
     @Override
@@ -535,7 +541,22 @@ public class MyServletRequest implements HttpServletRequest {
          * 
          * This step continues in findRequestedSessionId()
          */
-        throw new UnsupportedOperationException("Implement in step 12");
+
+        MyHttpSession session = null;
+
+        // First try to find based on requested session id
+        String requestedSessionId = getRequestedSessionId();
+        if (requestedSessionId != null) {
+            session = context.getSession(requestedSessionId);
+        }
+
+        // If not found, create and register a new session if needed
+        if (session == null && create) {
+            session = new MyHttpSession(context);
+            context.saveSession(session);
+        }
+
+        return session;
     }
 
     private static final void specialMethod() {

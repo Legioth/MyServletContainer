@@ -301,7 +301,9 @@ public class MyServletResponse implements HttpServletResponse {
              * 
              * If the session is new, make sure a JSESSIONID cookie is set.
              */
-            throw new UnsupportedOperationException("Implement in step 12");
+            if (session.isNew()) {
+                addCookie(new Cookie("JSESSIONID", session.getId()));
+            }
         }
     }
 
