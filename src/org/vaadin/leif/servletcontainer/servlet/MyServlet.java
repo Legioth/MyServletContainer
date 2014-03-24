@@ -19,7 +19,7 @@ public class MyServlet extends HttpServlet {
 
     private boolean useCookies = true;
 
-    private boolean useSessions = false;
+    private boolean useSessions = true;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
