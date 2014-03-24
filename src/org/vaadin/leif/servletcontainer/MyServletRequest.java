@@ -297,7 +297,15 @@ public class MyServletRequest implements HttpServletRequest {
          * 
          * This step continues in getEffectiveCharacterEncoding()
          */
-        throw new UnsupportedOperationException("Implement in step 15");
+        int contentLength = getContentLength();
+        if (contentLength == -1) {
+            throw new UnsupportedOperationException(
+                    "Can't use getReader() with an unknown content length");
+        }
+        stream.setBytesRemaining(contentLength);
+
+        return new BufferedReader(new InputStreamReader(stream,
+                getEffectiveCharacterEncoding()));
     }
 
     private String getEffectiveCharacterEncoding() {
@@ -308,7 +316,18 @@ public class MyServletRequest implements HttpServletRequest {
          * header and it defines a charset, use that. Else, default to
          * "ISO-8859-1"
          */
-        throw new UnsupportedOperationException("Implement in step 15");
+
+        String contentType = getContentType();
+        if (contentType != null) {
+            Matcher matcher = Pattern.compile("; *charset=([^;]*)").matcher(
+                    contentType);
+            if (matcher.find()) {
+                String charset = matcher.group(1);
+                return charset;
+            }
+        }
+
+        return "ISO-8859-1";
     }
 
     @Override
