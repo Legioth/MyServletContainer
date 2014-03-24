@@ -119,7 +119,12 @@ public class MyServletResponse implements HttpServletResponse {
          * Create a ServletOutputStream that buffers data in the buffer array
          * using bufferStream.
          */
-        throw new UnsupportedOperationException("Implement in step 13");
+        return new ServletOutputStream() {
+            @Override
+            public void write(int b) throws IOException {
+                bufferStream.write(b);
+            }
+        };
     }
 
     @Override
