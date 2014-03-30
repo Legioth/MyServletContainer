@@ -116,9 +116,30 @@ public class ServletContainer {
              * Parse the HTTP request line to extract method, path, query string
              * and protocol.
              */
-            if (true) {
-                throw new UnsupportedOperationException("Implement in step 2, "
-                        + requestLine);
+
+            // Could also use this lovely regex: (.+?) (.+?)(\\?(.+?))?( (.+))?
+
+            String[] lineParts = requestLine.split(" ");
+            if (lineParts.length < 2 || lineParts.length > 3) {
+                throw new RuntimeException("Invalid start line: " + requestLine);
+            }
+
+            method = lineParts[0];
+
+            String uri = lineParts[1];
+            int queryStart = uri.indexOf('?');
+            if (queryStart < 0) {
+                path = uri;
+                queryString = null;
+            } else {
+                path = uri.substring(0, queryStart);
+                queryString = uri.substring(queryStart + 1);
+            }
+
+            if (lineParts.length == 3) {
+                protocol = lineParts[2];
+            } else {
+                protocol = "HTTP/1.0";
             }
 
             if (!protocol.equals("HTTP/1.1") && !protocol.equals("HTTP/1.0")) {
