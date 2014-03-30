@@ -17,7 +17,7 @@ public class MyServlet extends HttpServlet {
 
     private boolean useHeaders = true;
 
-    private boolean useCookies = false;
+    private boolean useCookies = true;
 
     private boolean useSessions = false;
 
