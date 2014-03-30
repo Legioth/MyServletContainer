@@ -203,7 +203,8 @@ public class MyServletResponse implements HttpServletResponse {
          * 
          * This step continues in MyServletRequest.readCookies(Hashtable)
          */
-        throw new UnsupportedOperationException("Implement in step 11");
+
+        addHeader("Set-Cookie", cookie.getName() + "=" + cookie.getValue());
     }
 
     @Override

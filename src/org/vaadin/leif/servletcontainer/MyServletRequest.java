@@ -133,7 +133,17 @@ public class MyServletRequest implements HttpServletRequest {
          * "; ". Each cookie is in the form "<name>=<value>"
          */
 
-        throw new UnsupportedOperationException("Implement in step 11");
+        Vector<String> cookieHeaders = headers.get("Cookie");
+        Pattern pattern = Pattern.compile("\\G(.+?)=([^;]*)(; )?");
+
+        for (String cookieHeader : cookieHeaders) {
+            Matcher matcher = pattern.matcher(cookieHeader);
+            while (matcher.find()) {
+                String name = matcher.group(1);
+                String value = matcher.group(2);
+                cookies.add(new Cookie(name, value));
+            }
+        }
     }
 
     @Override
