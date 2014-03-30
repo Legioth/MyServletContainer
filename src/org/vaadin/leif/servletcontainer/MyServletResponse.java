@@ -51,7 +51,11 @@ public class MyServletResponse implements HttpServletResponse {
              * bufferLength up to date. There's no need to worry about the
              * buffer filling up right now.
              */
-            throw new UnsupportedOperationException("Implement in step 3");
+            if (bufferLength == buffer.length) {
+                throw new UnsupportedOperationException(
+                        "Buffer is full and chunked writing is not supported");
+            }
+            buffer[bufferLength++] = (byte) b;
         }
     };
 
@@ -142,7 +146,8 @@ public class MyServletResponse implements HttpServletResponse {
          * 
          * This step continues in bufferStream.write(int)
          */
-        throw new UnsupportedOperationException("Implement in step 3");
+        return new PrintWriter(new OutputStreamWriter(bufferStream,
+                getCharacterEncoding()));
     }
 
     @Override
